@@ -34,9 +34,14 @@ public class Client {
         byte[] lenghtBuffer = new byte[2];
         in.read(lenghtBuffer);
 
+        System.out.println("\n Response :");
+
+        for (int i = 0; i < lenghtBuffer.length; i++) {
+            System.out.print(lenghtBuffer[i] + " ");
+        }
+
         int lenght = ((lenghtBuffer[0] & 0xff) << 8) | (lenghtBuffer[1] & 0xff);
 
-        System.out.println(lenght);
         socket.close();
 
     }
