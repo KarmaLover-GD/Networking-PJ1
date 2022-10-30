@@ -5,7 +5,7 @@ import java.nio.ByteBuffer;
 
 public class Header {
     private short ID; // Unique identifier
-    private short flags; // Array of bits
+    private byte[] flags; // Array of bits
     private short QDCOUNT;
     private short ANCOUNT;
     private short NSCOUNT;
@@ -23,7 +23,10 @@ public class Header {
             String RA, String Z, String RCODE) {
         String flags = QR;
         flags += (Opcode + AA + TC + RD + RA + Z + RCODE);
-        this.flags = Short.parseShort(flags);
+        short flags_short = Short.parseShort(flags);
+        ByteBuffer flagsBB = ByteBuffer.allocate(2).putShort(flags_short);
+        this.flags = flagsBB.array();
+
     }
 
     public short getID() {
@@ -34,11 +37,11 @@ public class Header {
         this.ID = ID;
     }
 
-    public short getFlags() {
+    public byte[] getFlags() {
         return this.flags;
     }
 
-    public void setFlags(short flags) {
+    public void setFlags(byte[] flags) {
         this.flags = flags;
     }
 

@@ -5,14 +5,26 @@ import java.io.*;
 public class Client {
 
     public static void main(String[] args) throws IOException {
+        Socket socket = new Socket(args[0], 53);
+        // initiate new tcp connection
+
+        OutputStream out = socket.getOutputStream();
+        InputStream in = socket.getInputStream();
+
+        Header header = new Header((short) 17, (short) 1, (short) 0, (short) 0, (short) 0);
+        header.buildflags("0", "0000", "0", "0", "1", "0", "000", "0000");
+
+        Question question = new Question(args[1], (short) 1, (short) 1);
+
+        Message message = new Message(header, question);
+        message.buildQuery(out);
+
+        out.flush();
+        socket.close();
 
     }
 
     // public byte[] query(byte[] bytesToSend, String ServAdr) throws IOException {
-    // // initiate new tcp connection
-    // Socket socket = new Socket(ServAdr, 53);
-    // OutputStream out = socket.getOutputStream();
-    // InputStream in = socket.getInputStream();
 
     // // Sends Query
     // out.write(bytesToSend);
