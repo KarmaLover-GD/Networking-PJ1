@@ -1,7 +1,7 @@
 import javax.swing.event.AncestorEvent;
 
 import java.io.ObjectInputStream.GetField;
-import java.nio.ByteBuffer;
+import java.nio.*;
 
 public class Header {
     private short ID; // Unique identifier
@@ -29,8 +29,10 @@ public class Header {
 
     }
 
-    public short getID() {
-        return this.ID;
+    public byte[] getID() {
+        byte[] tmp = new byte[1];
+        ByteBuffer.wrap(tmp).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().put(this.ID);
+        return tmp;
     }
 
     public void setID(short ID) {
@@ -45,32 +47,40 @@ public class Header {
         this.flags = flags;
     }
 
-    public short getQDCOUNT() {
-        return this.QDCOUNT;
+    public byte[] getQDCOUNT() {
+        byte[] tmp = new byte[10];
+        ByteBuffer.wrap(tmp).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().put(this.QDCOUNT);
+        return tmp;
     }
 
     public void setQDCOUNT(short QDCOUNT) {
         this.QDCOUNT = QDCOUNT;
     }
 
-    public short getANCOUNT() {
-        return this.ANCOUNT;
+    public byte[] getANCOUNT() {
+        byte[] tmp = new byte[10];
+        ByteBuffer.wrap(tmp).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().put(this.ANCOUNT);
+        return tmp;
     }
 
     public void setANCOUNT(short ANCOUNT) {
         this.ANCOUNT = ANCOUNT;
     }
 
-    public short getNSCOUNT() {
-        return this.NSCOUNT;
+    public byte[] getNSCOUNT() {
+        byte[] tmp = new byte[10];
+        ByteBuffer.wrap(tmp).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().put(this.NSCOUNT);
+        return tmp;
     }
 
     public void setNSCOUNT(short NSCOUNT) {
         this.NSCOUNT = NSCOUNT;
     }
 
-    public short getARCOUNT() {
-        return this.ARCOUNT;
+    public byte[] getARCOUNT() {
+        byte[] tmp = new byte[10];
+        ByteBuffer.wrap(tmp).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().put(this.ARCOUNT);
+        return tmp;
     }
 
     public void setARCOUNT(short ARCOUNT) {

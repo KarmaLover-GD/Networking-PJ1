@@ -1,19 +1,21 @@
 import java.io.IOError;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
+import java.nio.*;
 
-public class Message {
+public class Request {
     public Header header;
     public Question question;
 
-    public Message(Header header, Question question) {
+    public Request(Header header, Question question) {
         this.header = header;
         this.question = question;
     }
 
-    public void buildQuery(OutputStream out) throws IOException {
+    public byte[] buildQuery(ByteArrayOutputStream out) throws IOException {
 
         // write header
+
         out.write(header.getID());
         out.write(header.getFlags());
         out.write(header.getQDCOUNT());
@@ -26,8 +28,12 @@ public class Message {
             out.write(question.getQNAME()[i].length);
             out.write(question.getQNAME()[i]);
         }
+        out.write(0);
         out.write(question.getQtype());
         out.write(question.getQclass());
+
+        byte[] output = out.toByteArray();
+        return output;
     }
 
     public Header getHeader() {
