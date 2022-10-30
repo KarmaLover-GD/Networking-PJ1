@@ -23,7 +23,7 @@ public class Header {
             String RA, String Z, String RCODE) {
         String flags = QR;
         flags += (Opcode + AA + TC + RD + RA + Z + RCODE);
-        short flags_short = Short.parseShort(flags);
+        short flags_short = Short.parseShort(flags, 2);
         ByteBuffer flagsBB = ByteBuffer.allocate(2).putShort(flags_short);
         this.flags = flagsBB.array();
 

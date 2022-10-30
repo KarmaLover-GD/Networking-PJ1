@@ -15,6 +15,7 @@ public class Question {
                 domain_parts += 1;
         }
         // filling QNAME
+        QNAME = new byte[domain_parts][];
         for (int i = 0; i < domain_parts; i++) {
             QNAME[i] = tmp[i].getBytes();
 
