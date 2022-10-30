@@ -12,10 +12,10 @@ public class Request {
         this.question = question;
     }
 
-    public byte[] buildQuery(ByteArrayOutputStream out) throws IOException {
+    public byte[] buildQuery() throws IOException {
 
         // write header
-
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
         out.write(header.getID());
         out.write(header.getFlags());
         out.write(header.getQDCOUNT());

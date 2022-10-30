@@ -13,7 +13,7 @@ public class Client {
 
         OutputStream out = socket.getOutputStream();
         InputStream in = socket.getInputStream();
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
         Header header = new Header((short) 10087, (short) 1, (short) 0, (short) 0,
                 (short) 0);
         header.buildflags("0", "0000", "0", "0", "1", "0", "000", "0000");
@@ -21,7 +21,7 @@ public class Client {
         Question question = new Question(args[1], (short) 1, (short) 1);
 
         Request request = new Request(header, question);
-        byte[] bytesToSend = request.buildQuery(outputStream);
+        byte[] bytesToSend = request.buildQuery();
 
         System.out.println("Sending : " + bytesToSend.length + "Bytes");
         for (int i = 0; i < bytesToSend.length; i++) {
