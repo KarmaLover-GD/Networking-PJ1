@@ -45,7 +45,7 @@ public class Question {
     }
 
     public byte[] getQtype() {
-        byte[] tmp = new byte[10];
+        byte[] tmp = new byte[2];
         ByteBuffer.wrap(tmp).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().put(this.Qtype);
         return tmp;
     }
@@ -55,7 +55,7 @@ public class Question {
     }
 
     public byte[] getQclass() {
-        byte[] tmp = new byte[10];
+        byte[] tmp = new byte[2];
         ByteBuffer.wrap(tmp).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().put(this.Qclass);
         return tmp;
     }

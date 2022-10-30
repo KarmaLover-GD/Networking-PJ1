@@ -30,7 +30,7 @@ public class Header {
     }
 
     public byte[] getID() {
-        byte[] tmp = new byte[1];
+        byte[] tmp = new byte[2];
         ByteBuffer.wrap(tmp).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().put(this.ID);
         return tmp;
     }
@@ -48,7 +48,7 @@ public class Header {
     }
 
     public byte[] getQDCOUNT() {
-        byte[] tmp = new byte[10];
+        byte[] tmp = new byte[2];
         ByteBuffer.wrap(tmp).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().put(this.QDCOUNT);
         return tmp;
     }
@@ -58,7 +58,7 @@ public class Header {
     }
 
     public byte[] getANCOUNT() {
-        byte[] tmp = new byte[10];
+        byte[] tmp = new byte[2];
         ByteBuffer.wrap(tmp).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().put(this.ANCOUNT);
         return tmp;
     }
@@ -68,7 +68,7 @@ public class Header {
     }
 
     public byte[] getNSCOUNT() {
-        byte[] tmp = new byte[10];
+        byte[] tmp = new byte[2];
         ByteBuffer.wrap(tmp).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().put(this.NSCOUNT);
         return tmp;
     }
@@ -78,7 +78,7 @@ public class Header {
     }
 
     public byte[] getARCOUNT() {
-        byte[] tmp = new byte[10];
+        byte[] tmp = new byte[2];
         ByteBuffer.wrap(tmp).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().put(this.ARCOUNT);
         return tmp;
     }
