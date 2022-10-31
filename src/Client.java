@@ -48,7 +48,7 @@ public class Client {
 
         // display the question
         System.out.println(
-                " Question (NS=" + server + ", NAME=" + question.GetDomain() + ", Type=" + question.type + ")");
+                "Question (NS=" + server + ", NAME=" + question.GetDomain() + ", Type=" + question.type + ")");
 
         // retrieve answel lenght
         byte[] lenghtBuffer = new byte[2];
@@ -58,12 +58,15 @@ public class Client {
 
         // retrieve full answer
         byte[] responseBuffer = new byte[lenght];
+
         in.read(responseBuffer);
+
         socket.close();
         return responseBuffer;
     }
 
     public void decode_response(byte[] responseBuffer) throws IOException {
+
         ByteArrayInputStream ResponseStream = new ByteArrayInputStream(responseBuffer);
         DataInputStream bb = new DataInputStream(ResponseStream);
 
@@ -74,8 +77,7 @@ public class Client {
         short NS = bb.readShort();
         short AR = bb.readShort();
         Header header = new Header(ID, flags, QD, AN, NS, AR);
-        System.out
-                .println("ID=" + ID + "\nflags=" + flags + "\nQD=" + QD + "\nAN=" + AN + "\nNS=" + NS + "\nAR = " + AR);
+
         String domain = "";
 
         int dom_sz = bb.read();
@@ -84,7 +86,7 @@ public class Client {
             if (i == dom_sz) {
                 i = 0;
                 j += dom_sz;
-                System.out.println("DOM SZ = " + dom_sz);
+
                 dom_sz = bb.readByte();
                 if (dom_sz == (byte) 0)
                     break;
@@ -99,29 +101,32 @@ public class Client {
 
         }
 
-        System.out.println("Domain=" + domain);
         short Qtype = bb.readShort();
         short Qclass = bb.readShort();
         Question question = new Question(domain, Qclass, Qtype);
-        System.out.println("Type=" + question.Qtype_toString(Qtype));
-        short tmp;
+
         for (int i = 0; i < AN; i++) {
-            tmp = bb.readShort();
+
+            byte tmp;
+            for (int j = 0; j < 2; j++) {
+                tmp = bb.readByte();
+            }
+            short type = bb.readShort();
+            System.out.print("Answer (Type=" + question.Qtype_toString(type) + ", ");
+            short CLASS = bb.readShort();
+            ByteBuffer buffer = ByteBuffer.allocate(4);
+            int TTL = bb.readInt();
+            System.out.print("TTL=" + TTL + ", ");
+
+            short RDlenght = bb.readShort();
+            byte[] data = new byte[RDlenght];
+            for (int k = 0; k < RDlenght; k++) {
+                data[k] = bb.readByte();
+            }
+            String strdata = new String(data);
+            System.out.println("DATA =" + strdata + ")");
+
         }
-        short type = bb.readShort();
-        System.out.println("Type = " + type);
-        short CLASS = bb.readShort();
-        ByteBuffer buffer = ByteBuffer.allocate(4);
-        // for (int i = 0; i < 4; i++)
-        // buffer.put(bb.readByte());
-        int TTL = bb.readInt();
-
-        System.out.println("TTL =" + TTL);
-        short RDlenght = bb.readShort();
-        System.out.println("RDLENGHT = " + RDlenght);
-
-        // System.out.println("Domain=" + domain);
-        // Question question = new Question(null, AR)
 
     }
 
@@ -136,10 +141,6 @@ public class Client {
         } else {
             response = client.query(args[0], args[1], "A");
         }
-        for (int i = 0; i < response.length; i++) {
-            System.out.print(response[i] + " ");
-        }
-        System.out.println("\n");
         client.decode_response(response);
     }
 }
