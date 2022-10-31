@@ -29,6 +29,35 @@ public class Question {
         this.Qclass = Qclass;
     }
 
+    public Question(String domain, short Qclass, short Qtype) {
+        String[] tmp = domain.split("\\.");
+
+        // FIND how many parts in domain
+        int domain_parts = 1;
+        this.domain = domain;
+        for (int i = 0; i < domain.length(); i++) {
+            if (domain.charAt(i) == '.')
+                domain_parts += 1;
+        }
+        // filling QNAME
+        QNAME = new byte[domain_parts][];
+        for (int i = 0; i < domain_parts; i++) {
+            QNAME[i] = tmp[i].getBytes();
+
+        }
+        this.Qtype = Qtype;
+        this.Qname_sz = (short) domain_parts;
+        this.Qclass = Qclass;
+    }
+
+    public String Qtype_toString(short Qtype) {
+        if (Qtype == 16) {
+            return "TXT";
+        } else {
+            return "A";
+        }
+    }
+
     public void Qtype_toShort(String type) {
         if (type.equals("TXT")) {
             this.Qtype = 16;

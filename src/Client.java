@@ -63,19 +63,51 @@ public class Client {
         return responseBuffer;
     }
 
-    public Request decode_response(byte[] responseBuffer) {
-        ByteBuffer bb = ByteBuffer.allocate(responseBuffer.length);
-        bb.order(ByteOrder.LITTLE_ENDIAN);
-        bb.put(responseBuffer);
+    public void decode_response(byte[] responseBuffer) throws IOException {
+        ByteArrayInputStream ResponseStream = new ByteArrayInputStream(responseBuffer);
+        DataInputStream bb = new DataInputStream(ResponseStream);
 
-        short ID = bb.getShort(0);
-        short flags = bb.getShort(1);
-        short QD = bb.getShort(2);
-        short AN = bb.getShort(3);
-        short NS = bb.getShort(4);
-        short AR = bb.getShort(5);
+        short ID = bb.readShort();
+        short flags = bb.readShort();
+        short QD = bb.readShort();
+        short AN = bb.readShort();
+        short NS = bb.readShort();
+        short AR = bb.readShort();
         Header header = new Header(ID, flags, QD, AN, NS, AR);
-        // header.buildflags(null, null, null, null, null, null, null, null);
+        System.out
+                .println("ID=" + ID + "\nflags=" + flags + "\nQD=" + QD + "\nAN=" + AN + "\nNS=" + NS + "\nAR = " + AR);
+        String domain = "";
+
+        int dom_sz = bb.read();
+        byte[] domain_Bt = new byte[256];
+        for (int i = 0, j = 0; i < dom_sz + 1; i++) {
+            if (i == dom_sz) {
+                i = 0;
+                j += dom_sz;
+                System.out.println("DOM SZ = " + dom_sz);
+                dom_sz = bb.readByte();
+                if (dom_sz == (byte) 0)
+                    break;
+
+                domain_Bt[i + j] = (byte) 46;
+                j++;
+
+            }
+            domain_Bt[i + j] = bb.readByte();
+
+            domain = new String(domain_Bt);
+
+        }
+
+        System.out.println("Domain=" + domain);
+        short Qtype = bb.readShort();
+        short Qclass = bb.readShort();
+        Question question = new Question(domain, Qclass, Qtype);
+        System.out.println("Type=" + question.Qtype_toString(Qtype));
+
+        // System.out.println("Domain=" + domain);
+        // Question question = new Question(null, AR)
+
     }
 
     public static void main(String[] args) throws IOException {
@@ -89,5 +121,10 @@ public class Client {
         } else {
             response = client.query(args[0], args[1], "A");
         }
+        for (int i = 0; i < response.length; i++) {
+            System.out.print(response[i] + " ");
+        }
+        System.out.println("\n");
+        client.decode_response(response);
     }
 }
