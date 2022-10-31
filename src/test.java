@@ -36,6 +36,7 @@ public class test {
             byte[] domainBytes = domainParts[i].getBytes();
             dataOutputStream.writeByte(domainBytes.length);
             dataOutputStream.write(domainBytes);
+            System.out.println(domainBytes + " " + domainBytes.length);
         }
         // No more parts
         dataOutputStream.writeByte(0);

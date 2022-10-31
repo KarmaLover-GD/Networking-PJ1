@@ -19,7 +19,7 @@ public class Question {
             if (domain.charAt(i) == '.')
                 domain_parts += 1;
         }
-        System.out.println(domain_parts);
+
         // filling QNAME
         QNAME = new byte[domain_parts][];
         for (int i = 0; i < domain_parts; i++) {
