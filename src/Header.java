@@ -19,6 +19,14 @@ public class Header {
         this.ARCOUNT = ARCOUNT;
     }
 
+    public Header(short ID, short flags, short QDCOUNT, short ANCOUNT, short NSCOUNT, short ARCOUNT) {
+        this.ID = ID;
+        this.QDCOUNT = QDCOUNT;
+        this.ANCOUNT = ANCOUNT;
+        this.NSCOUNT = NSCOUNT;
+        this.ARCOUNT = ARCOUNT;
+    }
+
     public void buildflags(String QR, String Opcode, String AA, String TC, String RD,
             String RA, String Z, String RCODE) {
         String flags = QR;
