@@ -31,7 +31,7 @@ public class Header {
 
     public byte[] getID() {
         byte[] tmp = new byte[2];
-        ByteBuffer.wrap(tmp).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().put(this.ID);
+        ByteBuffer.wrap(tmp).order(ByteOrder.BIG_ENDIAN).asShortBuffer().put(this.ID);
         return tmp;
     }
 

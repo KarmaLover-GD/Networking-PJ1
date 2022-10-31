@@ -7,7 +7,7 @@ import java.nio.ByteBuffer;
 
 public class test {
     public static void main(String[] args) throws IOException {
-        InetAddress ipAddress = InetAddress.getByName("1.1.1.1");// cloudflare
+        InetAddress ipAddress = InetAddress.getByName("139.165.99.199");// cloudflare
 
         Random random = new Random();
         short ID = (short) random.nextInt(32767);
@@ -29,7 +29,7 @@ public class test {
         dataOutputStream.writeShort(ANCOUNT);
         dataOutputStream.writeShort(NSCOUNT);
         dataOutputStream.writeShort(ARCOUNT);
-        String domain = "medium.com";
+        String domain = "ddi.uliege.be";
         String[] domainParts = domain.split("\\.");
 
         for (int i = 0; i < domainParts.length; i++) {
@@ -55,5 +55,15 @@ public class test {
         DatagramSocket socket = new DatagramSocket();
         DatagramPacket dnsReqPacket = new DatagramPacket(dnsFrame, dnsFrame.length, ipAddress, 53);
         socket.send(dnsReqPacket);
+
+        byte[] response = new byte[1024];
+        DatagramPacket packet = new DatagramPacket(response, response.length);
+        socket.receive(packet);
+
+        System.out.println("\n\nReceived: " + packet.getLength() + " bytes");
+        for (int i = 0; i < packet.getLength(); i++) {
+            System.out.print(String.format("%s", response[i]) + " ");
+        }
+        System.out.println("\n");
     }
 }

@@ -16,6 +16,7 @@ public class Request {
 
         // write header
         ByteArrayOutputStream out = new ByteArrayOutputStream();
+
         out.write(header.getID());
         out.write(header.getFlags());
         out.write(header.getQDCOUNT());

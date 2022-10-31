@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.net.Socket;
 import java.io.*;
+import java.nio.*;
 
 public class Client {
 
@@ -27,11 +28,15 @@ public class Client {
         for (int i = 0; i < bytesToSend.length; i++) {
             System.out.print(String.format("%s", bytesToSend[i]) + " ");
         }
-
+        short lenght_sent = (short) bytesToSend.length();
+        byte[] lenght_byte = new byte[2];
+        ByteBuffer.wrap(lenght_byte).order(ByteOrder.BIG_ENDIAN).asShortBuffer().put(lenght_sent);
+        out.write(lenght_byte);
+        out.flush();
         out.write(bytesToSend);
         out.flush();
 
-        byte[] lenghtBuffer = new byte[10];
+        byte[] lenghtBuffer = new byte[100];
         in.read(lenghtBuffer);
 
         System.out.println("\n Response :");
