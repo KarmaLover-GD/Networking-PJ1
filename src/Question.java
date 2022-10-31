@@ -10,13 +10,16 @@ public class Question {
 
     public Question(String domain, short Qtype, short Qclass) {
         String[] tmp = domain.split("\\.");
+
         // FIND how many parts in domain
-        int domain_parts = 0;
+        int domain_parts = 1;
         this.domain = domain;
+
         for (int i = 0; i < domain.length(); i++) {
             if (domain.charAt(i) == '.')
                 domain_parts += 1;
         }
+        System.out.println(domain_parts);
         // filling QNAME
         QNAME = new byte[domain_parts][];
         for (int i = 0; i < domain_parts; i++) {
@@ -46,7 +49,7 @@ public class Question {
 
     public byte[] getQtype() {
         byte[] tmp = new byte[2];
-        ByteBuffer.wrap(tmp).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().put(this.Qtype);
+        ByteBuffer.wrap(tmp).order(ByteOrder.BIG_ENDIAN).asShortBuffer().put(this.Qtype);
         return tmp;
     }
 
@@ -56,7 +59,7 @@ public class Question {
 
     public byte[] getQclass() {
         byte[] tmp = new byte[2];
-        ByteBuffer.wrap(tmp).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().put(this.Qclass);
+        ByteBuffer.wrap(tmp).order(ByteOrder.BIG_ENDIAN).asShortBuffer().put(this.Qclass);
         return tmp;
     }
 

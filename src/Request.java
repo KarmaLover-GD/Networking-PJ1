@@ -25,10 +25,11 @@ public class Request {
 
         // write question
         for (short i = 0; i < question.getQName_sz(); i++) {
-            out.write(question.getQNAME()[i].length);
+            out.write((byte) question.getQNAME()[i].length);
             out.write(question.getQNAME()[i]);
+
         }
-        out.write(0);
+        out.write((byte) 0);
         out.write(question.getQtype());
         out.write(question.getQclass());
 

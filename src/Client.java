@@ -31,7 +31,7 @@ public class Client {
         out.write(bytesToSend);
         out.flush();
 
-        byte[] lenghtBuffer = new byte[2];
+        byte[] lenghtBuffer = new byte[10];
         in.read(lenghtBuffer);
 
         System.out.println("\n Response :");
