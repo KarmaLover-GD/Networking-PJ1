@@ -104,6 +104,21 @@ public class Client {
         short Qclass = bb.readShort();
         Question question = new Question(domain, Qclass, Qtype);
         System.out.println("Type=" + question.Qtype_toString(Qtype));
+        short tmp;
+        for (int i = 0; i < AN; i++) {
+            tmp = bb.readShort();
+        }
+        short type = bb.readShort();
+        System.out.println("Type = " + type);
+        short CLASS = bb.readShort();
+        ByteBuffer buffer = ByteBuffer.allocate(4);
+        // for (int i = 0; i < 4; i++)
+        // buffer.put(bb.readByte());
+        int TTL = bb.readInt();
+
+        System.out.println("TTL =" + TTL);
+        short RDlenght = bb.readShort();
+        System.out.println("RDLENGHT = " + RDlenght);
 
         // System.out.println("Domain=" + domain);
         // Question question = new Question(null, AR)
