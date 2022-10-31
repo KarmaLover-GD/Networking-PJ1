@@ -7,19 +7,18 @@ public class Question {
     private short Qtype;
     private short Qclass;
     public String domain;
+    public String type;
 
-    public Question(String domain, short Qtype, short Qclass) {
+    public Question(String domain, short Qclass) {
         String[] tmp = domain.split("\\.");
 
         // FIND how many parts in domain
         int domain_parts = 1;
         this.domain = domain;
-
         for (int i = 0; i < domain.length(); i++) {
             if (domain.charAt(i) == '.')
                 domain_parts += 1;
         }
-
         // filling QNAME
         QNAME = new byte[domain_parts][];
         for (int i = 0; i < domain_parts; i++) {
@@ -27,8 +26,18 @@ public class Question {
 
         }
         this.Qname_sz = (short) domain_parts;
-        this.Qtype = Qtype;
         this.Qclass = Qclass;
+    }
+
+    public void Qtype_toShort(String type) {
+        if (type.equals("TXT")) {
+            this.Qtype = 16;
+            this.type = "TXT";
+        } else {
+            this.Qtype = 1;
+            this.type = "A";
+        }
+
     }
 
     public String GetDomain() {
