@@ -1,8 +1,9 @@
 import java.io.IOException;
 import java.lang.reflect.Array;
-import java.net.Socket;
+import java.net.*;
 import java.io.*;
 import java.nio.*;
+import java.nio.charset.StandardCharsets;
 
 import javax.management.Query;
 
@@ -112,19 +113,28 @@ public class Client {
                 tmp = bb.readByte();
             }
             short type = bb.readShort();
+
             System.out.print("Answer (Type=" + question.Qtype_toString(type) + ", ");
             short CLASS = bb.readShort();
-            ByteBuffer buffer = ByteBuffer.allocate(4);
+
             int TTL = bb.readInt();
             System.out.print("TTL=" + TTL + ", ");
 
             short RDlenght = bb.readShort();
+
             byte[] data = new byte[RDlenght];
             for (int k = 0; k < RDlenght; k++) {
                 data[k] = bb.readByte();
             }
-            String strdata = new String(data);
-            System.out.println("DATA =" + strdata + ")");
+            if (Qtype == (short) 1) {
+                String Data = "";
+                InetAddress tempo = InetAddress.getByAddress(data);
+                Data = tempo.toString();
+                System.out.println("DATA =" + Data + ")");
+            } else {
+                String StrData = new String(data);
+                System.out.println("DATA =" + StrData + ")");
+            }
 
         }
 
